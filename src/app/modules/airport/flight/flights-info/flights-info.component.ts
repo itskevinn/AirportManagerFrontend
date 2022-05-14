@@ -1,15 +1,68 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Flight} from "../../../../data/models/airport/flight.model";
+import {FlightService} from "../../../../data/services/airport/flight.service";
+import {CREATE, UPDATE} from "../../../../core/constants/actions";
+import {unsubscribeAllSubscriptions} from "../../../../shared/func/functions";
+import {MatDialog} from "@angular/material/dialog";
+import {Subscription} from "rxjs";
+import {CreateModifyFlightDialogComponent} from "../create-modify-flight-dialog/create-modify-flight-dialog.component";
 
 @Component({
   selector: 'app-flights-info',
   templateUrl: './flights-info.component.html',
   styleUrls: ['./flights-info.component.scss']
 })
-export class FlightsInfoComponent implements OnInit {
+export class FlightsInfoComponent implements OnInit, OnDestroy {
+  subscriptions: Subscription[] = [];
+  flights: Flight[] = [];
 
-  constructor() { }
+  constructor(private flightService: FlightService,
+              private dialog: MatDialog) {
+  }
+
 
   ngOnInit(): void {
+    this.getFlights();
+  }
+
+  private getFlights(): void {
+    let subscription = this.flightService.getAll().subscribe(r => {
+      if (!r.success) {
+        return;
+      }
+      this.flights = r.body;
+    });
+    this.subscriptions.push(subscription);
+  }
+
+  public showRegisterModifyFlightDialog(action: string, flight?: Flight): void {
+    switch (action) {
+      case CREATE: {
+        this.openDialog(null!, CREATE);
+      }
+        break;
+      case UPDATE: {
+        this.openDialog(flight!, UPDATE);
+      }
+        break;
+      default:
+        break;
+    }
+  }
+
+  private openDialog(flight: Flight, action: string): void {
+    let dialogRef = this.dialog.open(CreateModifyFlightDialogComponent, {
+      width: '80%',
+      data: {action: action, flight: flight},
+    });
+    let subscription = dialogRef.afterClosed().subscribe(_ => {
+      this.getFlights();
+    })
+    this.subscriptions.push(subscription);
+  }
+
+  ngOnDestroy(): void {
+    unsubscribeAllSubscriptions(this.subscriptions);
   }
 
 }

@@ -1,1 +1,31 @@
-<p>cities-info works!</p>
+<div class="row mt-3 mb-1">
+  <div class="col-4 col-lg-6">
+    <h1><b>Ciudades</b></h1>
+  </div>
+  <div class="col-8 col-lg-6 text-end">
+    <button pButton pRipple type="button" icon="fa-solid fa-plus" (click)="showRegisterModifyCityDialog('Crear')"
+            class="p-button-raised p-button-primary p-button-text" label="Nuevo médico "></button>
+  </div>
+</div>
+<div class="card">
+  <p-table [value]="cities" [paginator]="true" [rows]="5" [showCurrentPageReport]="true"
+           currentPageReportTemplate="Mostrando de {first} a {last} de {totalRecords} registros totales"
+           [rowsPerPageOptions]="[5,10,25,50]">
+    <ng-template pTemplate="header">
+      <tr>
+        <th scope="col">Nombre</th>
+        <th scope="col" style="width:8rem"></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-city>
+      <tr>
+        <td>{{city.name}}</td>
+        <td>
+          <button pButton pRipple type="button" icon="pi pi-pencil"
+                  (click)="showRegisterModifyCityDialog('Editar',city)"
+                  class="p-button-rounded p-button-text"></button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

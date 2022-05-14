@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {catchError, Observable} from "rxjs";
 import {Response} from "../../../shared/models/response.model";
-import {Flight} from "../../models/airport/flight.model";
 import {HttpClient} from "@angular/common/http";
 import {BaseService} from "../base/base-service";
+import {City} from "../../models/airport/city.model";
 
 @Injectable({
   providedIn: 'root'
@@ -14,16 +14,16 @@ export class CityService extends BaseService {
     super();
   }
 
-  public getAll(): Observable<Response<Flight[]>> {
-    return this.http.get<Response<Flight[]>>(`${this.baseUrl}/City/GetAll`)
+  public getAll(): Observable<Response<City[]>> {
+    return this.http.get<Response<City[]>>(`${this.baseUrl}/City/GetAll`)
       .pipe(catchError(err => {
         throw err;
       }))
   }
 
 
-  public save(flight: Flight): Observable<Response<Flight>> {
-    return this.http.post<Response<Flight>>(`${this.baseUrl}/City/Create`, flight).pipe(
+  public save(flight: City): Observable<Response<City>> {
+    return this.http.post<Response<City>>(`${this.baseUrl}/City/Create`, flight).pipe(
       catchError(err => {
         throw err;
       })
@@ -31,16 +31,16 @@ export class CityService extends BaseService {
   }
 
 
-  public update(flight: Flight): Observable<Response<Flight>> {
-    return this.http.put<Response<Flight>>(`${this.baseUrl}/City/Update`, flight).pipe(
+  public update(flight: City): Observable<Response<City>> {
+    return this.http.put<Response<City>>(`${this.baseUrl}/City/Update`, flight).pipe(
       catchError(err => {
         throw err;
       })
     );
   }
 
-  public getById(id: string): Observable<Response<Flight>> {
-    return this.http.get<Response<Flight>>(`${this.baseUrl}/City/GetById/${id}`)
+  public getById(id: string): Observable<Response<City>> {
+    return this.http.get<Response<City>>(`${this.baseUrl}/City/GetById/${id}`)
       .pipe(catchError(err => {
         throw err
       }))

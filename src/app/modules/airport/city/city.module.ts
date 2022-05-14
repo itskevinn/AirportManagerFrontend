@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { CitiesInfoComponent } from './cities-info/cities-info.component';
 import { CreateModifyCityDialogComponent } from './create-modify-city-dialog/create-modify-city-dialog.component';
+import {SharedModule} from "../../../shared/shared.module";
 
 
 
@@ -11,7 +11,7 @@ import { CreateModifyCityDialogComponent } from './create-modify-city-dialog/cre
     CreateModifyCityDialogComponent
   ],
   imports: [
-    CommonModule
+    SharedModule
   ]
 })
 export class CityModule { }

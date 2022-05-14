@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {FlightsInfoComponent} from "./flights-info/flights-info.component";
+import {CitiesInfoComponent} from "./cities-info/cities-info.component";
 
 
 const routes: Routes = [
@@ -8,11 +8,11 @@ const routes: Routes = [
     path: '',
     redirectTo: '',
     pathMatch: 'full',
-    component: FlightsInfoComponent
+    component: CitiesInfoComponent
   }
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class FlightRoutingModule { }
+export class CityRoutingModule { }

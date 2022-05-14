@@ -6,13 +6,14 @@ import {AirlinesInfoComponent} from "./airlines-info/airlines-info.component";
 import {
   CreateModifyAirlineDialogComponent
 } from "./create-modify-airline-dialog/create-modify-airline-dialog.component";
+import {SharedModule} from "../../../shared/shared.module";
 
 
 @NgModule({
   declarations: [AirlinesInfoComponent, CreateModifyAirlineDialogComponent],
   imports: [
-    CommonModule,
-    AirlineRoutingModule
+    AirlineRoutingModule,
+    SharedModule
   ]
 })
 export class AirlineModule {

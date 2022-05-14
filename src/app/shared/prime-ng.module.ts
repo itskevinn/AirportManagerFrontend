@@ -7,6 +7,7 @@ import {RippleModule} from 'primeng/ripple';
 import {DropdownModule} from 'primeng/dropdown';
 import {ProgressSpinnerModule} from 'primeng/progressspinner'
 import {InputNumberModule} from "primeng/inputnumber";
+import {CalendarModule} from "primeng/calendar";
 
 @NgModule({
   declarations: [],
@@ -18,7 +19,8 @@ import {InputNumberModule} from "primeng/inputnumber";
     DropdownModule,
     RippleModule,
     ProgressSpinnerModule,
-    InputNumberModule
+    InputNumberModule,
+    CalendarModule
   ],
   exports: [
     TableModule,
@@ -28,7 +30,8 @@ import {InputNumberModule} from "primeng/inputnumber";
     DropdownModule,
     RippleModule,
     ProgressSpinnerModule,
-    InputNumberModule
+    InputNumberModule,
+    CalendarModule
   ]
 })
 export class PrimeNgModule {

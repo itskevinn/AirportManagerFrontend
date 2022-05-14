@@ -1,1 +1,64 @@
-<p>create-modify-flight-dialog works!</p>
+<div class="p-3">
+  <h1 mat-dialog-title>{{data.action}} médico</h1>
+  <div mat-dialog-content>
+    <div [formGroup]="flightForm">
+      <div class="row">
+        <div class="col-lg-6 col-12 my-1">
+          <p-dropdown appendTo="body" [options]="cities" formControlName="departureCityId"
+                      placeholder="Seleccione la ciudad de salida"
+                      emptyMessage="No se encontraron registros" optionLabel="name" optionValue="id"
+                      [showClear]="true"></p-dropdown>
+        </div>
+        <div class="col-lg-6 col-12 my-1">
+          <p-dropdown appendTo="body" [options]="cities" formControlName="destinyCityId"
+                      placeholder="Seleccione la ciudad de destino"
+                      emptyMessage="No se encontraron registros" optionLabel="name" optionValue="id"
+                      [showClear]="true"></p-dropdown>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6 col-12 my-1">
+          <label>Fecha de Salida</label>
+          <p-calendar appendTo="body" formControlName="checkOutDate"
+                      [locale]="es" dateFormat="dd/mm/yy"></p-calendar>
+        </div>
+        <div class="col-lg-6 col-12 my-1">
+          <p-dropdown appendTo="body" [options]="airlines" formControlName="airlineId"
+                      placeholder="Seleccione la aereolínea"
+                      emptyMessage="No se encontraron registros" optionLabel="name" optionValue="id"
+                      [showClear]="true"></p-dropdown>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6 col-12 my-1">
+          <label>Hora de Salida</label>
+          <p-calendar appendTo="body" formControlName="checkOutTime" [timeOnly]="true"></p-calendar>
+        </div>
+        <div class="col-lg-6 col-12 my-1">
+          <label>Hora de Llegada</label>
+          <p-calendar appendTo="body" formControlName="checkInTime" [timeOnly]="true"></p-calendar>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6 col-12 my-1">
+          <p-dropdown appendTo="body" [options]="workingHours" formControlName="workingHours"
+                      emptyMessage="No se encontraron registros"
+                      placeholder="Seleccione horas de trabajo" optionLabel="name" optionValue="value"
+                      [showClear]="true"></p-dropdown>
+        </div>
+        <div class="col-lg-6 col-12 my-1">
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div mat-dialog-actions class="row text-center">
+    <div class="col-lg-6  col-6  d-flex justify-content-end">
+      <button pButton pRipple class="p-button-raised p-button-primary p-button-text" label="Cancelar"
+              mat-dialog-close></button>
+    </div>
+    <div class="col-lg-6 col-6  d-flex justify-content-start">
+      <p-button class="mx-1" (click)="confirm()" [label]="data.action" icon="pi pi-check" iconPos="right"></p-button>
+    </div>
+  </div>
+</div>

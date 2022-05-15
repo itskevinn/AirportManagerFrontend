@@ -11,6 +11,7 @@ import {City} from "../../../../data/models/airport/city.model";
 import {Airline} from "../../../../data/models/airport/airline.model";
 import {Flight} from "../../../../data/models/airport/flight.model";
 import {FlightService} from "../../../../data/services/airport/flight.service";
+import {AuthService} from "../../../../data/services/security/auth.service";
 
 @Component({
   selector: 'app-create-modify-flight-dialog',
@@ -24,6 +25,7 @@ export class CreateModifyFlightDialogComponent implements OnInit, OnDestroy {
   cities: City[] = [];
   airlines: Airline[] = [];
   es: any;
+  username: string = '';
 
   constructor(public _: MatDialogRef<CreateModifyFlightDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
@@ -31,9 +33,11 @@ export class CreateModifyFlightDialogComponent implements OnInit, OnDestroy {
               private messageService: MessageService,
               private cityService: CityService,
               private airlineService: AirlineService,
-              private flightService: FlightService
+              private flightService: FlightService,
+              private authService: AuthService
   ) {
     this.flightForm = this.buildFlightForm();
+    this.username = authService.currentUserValue.username;
   }
 
 
@@ -70,7 +74,7 @@ export class CreateModifyFlightDialogComponent implements OnInit, OnDestroy {
           });
           return;
         }
-        this.cities = r.body;
+        this.cities = r.data;
       })
     )
   }
@@ -82,7 +86,7 @@ export class CreateModifyFlightDialogComponent implements OnInit, OnDestroy {
           this.messageService.add({severity: 'error', key: 'gt', closable: true, summary: 'Error', detail: r.message})
           return;
         }
-        this.airlines = r.body;
+        this.airlines = r.data;
       }));
   }
 
@@ -97,12 +101,21 @@ export class CreateModifyFlightDialogComponent implements OnInit, OnDestroy {
       id: [null],
       departureCityId: [null, Validators.required],
       destinyCityId: [null, Validators.required],
-
+      checkOutDate: [null, Validators.required],
+      checkInTime: [null, Validators.required],
+      checkOutTime: [null, Validators.required],
+      airlineId: [null, Validators.required]
     })
   }
 
   private setFlightFormValues(flight: Flight) {
-    setFormValues(this.flightForm, flight);
+    this.flightForm.controls['departureCityId']?.setValue(flight.departureCity?.id);
+    this.flightForm.controls['destinyCityId']?.setValue(flight.destinyCity?.id);
+    this.flightForm.controls['checkOutDate']?.setValue(flight.checkOutDate);
+    this.flightForm.controls['checkInTime']?.setValue(flight.checkInTime);
+    this.flightForm.controls['checkOutTime']?.setValue(flight.checkOutTime);
+    this.flightForm.controls['airlineId']?.setValue(flight.airline.id);
+
   }
 
   public confirm(): void {
@@ -122,6 +135,7 @@ export class CreateModifyFlightDialogComponent implements OnInit, OnDestroy {
   }
 
   private createFlight(flight: Flight): Subscription {
+    flight.createdBy = this.username;
     return this.flightService.save(flight).subscribe(r => {
       if (!r.success) {
         this.messageService.add({
@@ -138,6 +152,7 @@ export class CreateModifyFlightDialogComponent implements OnInit, OnDestroy {
   }
 
   private updateFlight(flight: Flight): Subscription {
+    flight.updatedBy = this.username;
     return this.flightService.update(flight).subscribe(r => {
       if (!r.success) {
         this.messageService.add({

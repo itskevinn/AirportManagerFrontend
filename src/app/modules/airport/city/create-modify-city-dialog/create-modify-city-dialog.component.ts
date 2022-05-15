@@ -7,6 +7,7 @@ import {CityService} from "../../../../data/services/airport/city.service";
 import {City} from "../../../../data/models/airport/city.model";
 import {markFormControlsAsTouched, setFormValues, unsubscribeAllSubscriptions} from "../../../../shared/func/functions";
 import {CREATE} from "../../../../core/constants/actions";
+import {AuthService} from "../../../../data/services/security/auth.service";
 
 @Component({
   selector: 'app-create-modify-city-dialog',
@@ -18,14 +19,17 @@ export class CreateModifyCityDialogComponent implements OnInit, OnDestroy {
 
   cityForm: FormGroup;
   subscriptions: Subscription[] = [];
+  username: string = '';
 
   constructor(public _: MatDialogRef<CreateModifyCityDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private formBuilder: FormBuilder,
               private messageService: MessageService,
-              private cityService: CityService
+              private cityService: CityService,
+              private authService: AuthService
   ) {
     this.cityForm = this.buildCityForm();
+    this.username = authService.currentUserValue.username;
   }
 
 
@@ -42,7 +46,10 @@ export class CreateModifyCityDialogComponent implements OnInit, OnDestroy {
   private buildCityForm(): FormGroup {
     return this.cityForm = this.formBuilder.group({
       id: [],
-      name: [Validators.required]
+      name: ['', Validators.required],
+      createdBy: [this.username],
+      updatedBy: [],
+      status: [true]
     })
   }
 
@@ -57,6 +64,8 @@ export class CreateModifyCityDialogComponent implements OnInit, OnDestroy {
       return;
     }
     city = this.cityForm.value;
+    city.updatedBy = this.username;
+    debugger;
     let subscription: Subscription;
     if (this.data.action === CREATE) {
       subscription = this.createCity(city);
@@ -67,6 +76,7 @@ export class CreateModifyCityDialogComponent implements OnInit, OnDestroy {
   }
 
   private createCity(city: City): Subscription {
+    city.createdBy = this.username;
     return this.cityService.save(city).subscribe(r => {
       if (!r.success) {
         this.messageService.add({
@@ -83,6 +93,7 @@ export class CreateModifyCityDialogComponent implements OnInit, OnDestroy {
   }
 
   private updateCity(city: City): Subscription {
+    city.updatedBy = this.username;
     return this.cityService.update(city).subscribe(r => {
       if (!r.success) {
         this.messageService.add({

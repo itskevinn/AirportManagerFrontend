@@ -17,20 +17,21 @@ export class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot,
   ): Observable<boolean> | Promise<boolean> | boolean {
-    let currentUser = JSON.parse(sessionStorage.getItem("currentSession")!) !== null;
+    let currentUser = JSON.parse(sessionStorage.getItem("currentSession")!);
     if (currentUser !== null) {
-      return currentUser;
+      return true;
+    } else {
+      this.router.navigateByUrl('/login').then(r => {
+        if (!r) {
+          this.messageService.add({
+            key: 'gt',
+            summary: 'Error',
+            severity: 'error',
+            detail: "Ha ocurrido un error, intente de nuevo más tarde"
+          });
+        }
+      });
+      return false;
     }
-    this.router.navigateByUrl('/login').then(r => {
-      if (!r) {
-        this.messageService.add({
-          key: 'gt',
-          summary: 'Error',
-          severity: 'error',
-          detail: "Ha ocurrido un error, intente de nuevo más tarde"
-        });
-      }
-    });
-    return false;
   }
 }

@@ -9,4 +9,6 @@ export interface Flight {
   airline: Airline;
   departureCity: City;
   destinyCity: City;
+  createdBy: string;
+  updatedBy?: string;
 }

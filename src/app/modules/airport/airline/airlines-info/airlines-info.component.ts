@@ -8,7 +8,7 @@ import {
   CreateModifyAirlineDialogComponent
 } from "../create-modify-airline-dialog/create-modify-airline-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
-import {unsubscribeAllSubscriptions} from "../../../../shared/func/functions";
+import {getDialogWidth, unsubscribeAllSubscriptions} from "../../../../shared/func/functions";
 
 @Component({
   selector: 'app-airlines-info',
@@ -33,7 +33,7 @@ export class AirlinesInfoComponent implements OnInit, OnDestroy {
       if (!r.success) {
         return;
       }
-      this.airlines = r.body;
+      this.airlines = r.data;
     });
     this.subscriptions.push(subscription);
   }
@@ -55,7 +55,7 @@ export class AirlinesInfoComponent implements OnInit, OnDestroy {
 
   private openDialog(airline: Airline, action: string): void {
     let dialogRef = this.dialog.open(CreateModifyAirlineDialogComponent, {
-      width: '80%',
+      width: getDialogWidth(),
       data: {action: action, airline: airline},
     });
     let subscription = dialogRef.afterClosed().subscribe(_ => {

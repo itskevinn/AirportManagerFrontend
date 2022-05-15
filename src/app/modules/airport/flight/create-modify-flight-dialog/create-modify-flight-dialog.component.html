@@ -23,8 +23,8 @@
                       [locale]="es" dateFormat="dd/mm/yy"></p-calendar>
         </div>
         <div class="col-lg-6 col-12 my-1">
+          <label>Seleccione la aereolínea</label>
           <p-dropdown appendTo="body" [options]="airlines" formControlName="airlineId"
-                      placeholder="Seleccione la aereolínea"
                       emptyMessage="No se encontraron registros" optionLabel="name" optionValue="id"
                       [showClear]="true"></p-dropdown>
         </div>

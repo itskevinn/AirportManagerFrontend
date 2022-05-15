@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {MenuItem} from "primeng/api";
-import {MenuService} from 'src/app/data/services/config/menu.service';
 import {Subscription} from "rxjs";
+import {AuthService} from "../../data/services/security/auth.service";
 
 @Component({
   selector: 'app-tab-menu',
@@ -12,19 +12,26 @@ export class TabMenuComponent implements OnInit {
   items: MenuItem[] = [];
   subscriptions: Subscription[] = [];
 
-  constructor(private menuService: MenuService) {
+  constructor(private authService: AuthService) {
   }
 
   ngOnInit(): void {
+    this.items = this.menuItems;
   }
 
-  private getMenuItems(): void {
-    let subscription = this.menuService.getAll().subscribe(r => {
-      if (!r.success) {
-        return;
-      }
-      this.items = r.body;
+  private get menuItems(): MenuItem[] {
+    let items: MenuItem[] = [];
+    let backendItems: any[] = [];
+    let user = this.authService.currentUserValue;
+    user?.roles?.forEach(r => {
+      r.authorities?.forEach(a => {
+        backendItems.push(a);
+      });
     });
-    this.subscriptions.push(subscription);
+    backendItems.sort((a, b) => (a.order < b.order) ? -1 : 1);
+    backendItems.map(r => {
+      items.push(r);
+    });
+    return items;
   }
 }

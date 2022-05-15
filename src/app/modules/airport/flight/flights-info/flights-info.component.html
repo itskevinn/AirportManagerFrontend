@@ -3,7 +3,8 @@
     <h1><b>Vuelos</b></h1>
   </div>
   <div class="col-8 col-lg-6 text-end">
-    <button pButton pRipple type="button" icon="fa-solid fa-plus" (click)="showRegisterModifyFlightDialog('Crear')"
+    <button *ngIf="canAddOrEdit" pButton pRipple type="button" icon="fa-solid fa-plus"
+            (click)="showRegisterModifyFlightDialog('Crear')"
             class="p-button-raised p-button-primary p-button-text" label="Nuevo vuelo "></button>
   </div>
 </div>
@@ -26,15 +27,18 @@
     <ng-template pTemplate="body" let-flight>
       <tr>
         <td>{{flight.airline.name}}</td>
-        <td>{{flight.checkOutDate}}</td>
-        <td>{{flight.checkInTime}}</td>
-        <td>{{flight.checkOutTime}}</td>
+        <td>{{flight.checkOutDate | date: 'dd/MM/yyyy'}}</td>
+        <td>{{flight.checkInTime  | date: 'hh:mm'}}</td>
+        <td>{{flight.checkOutTime | date: 'hh:mm'}}</td>
         <td>{{flight.destinyCity.name}}</td>
         <td>{{flight.departureCity.name}}</td>
         <td>{{flight.flightStatus}}</td>
         <td>
-          <button pButton pRipple type="button" icon="pi pi-pencil"
+          <button *ngIf="canAddOrEdit" pButton pRipple type="button" icon="pi pi-pencil"
                   (click)="showRegisterModifyFlightDialog('Editar',flight)"
+                  class="p-button-rounded p-button-text"></button>
+          <button pButton pRipple type="button" icon="pi pi-pencil"
+                  (click)="showFlightDetailsDialog(flight)"
                   class="p-button-rounded p-button-text"></button>
         </td>
       </tr>

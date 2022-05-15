@@ -5,7 +5,7 @@ import {CREATE, UPDATE} from "../../../../core/constants/actions";
 import {
   CreateModifyCityDialogComponent
 } from "../create-modify-city-dialog/create-modify-city-dialog.component";
-import {unsubscribeAllSubscriptions} from "../../../../shared/func/functions";
+import {getDialogWidth, unsubscribeAllSubscriptions} from "../../../../shared/func/functions";
 import {City} from "../../../../data/models/airport/city.model";
 import {CityService} from "../../../../data/services/airport/city.service";
 
@@ -32,7 +32,7 @@ export class CitiesInfoComponent implements OnInit, OnDestroy {
       if (!r.success) {
         return;
       }
-      this.cities = r.body;
+      this.cities = r.data;
     });
     this.subscriptions.push(subscription);
   }
@@ -54,7 +54,7 @@ export class CitiesInfoComponent implements OnInit, OnDestroy {
 
   private openDialog(city: City, action: string): void {
     let dialogRef = this.dialog.open(CreateModifyCityDialogComponent, {
-      width: '80%',
+      width: getDialogWidth(),
       data: {action: action, city: city},
     });
     let subscription = dialogRef.afterClosed().subscribe(_ => {

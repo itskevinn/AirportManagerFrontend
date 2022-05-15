@@ -7,6 +7,7 @@ import {CREATE} from "../../../../core/constants/actions";
 import {MessageService} from "primeng/api";
 import {Airline} from "../../../../data/models/airport/airline.model";
 import {AirlineService} from "../../../../data/services/airport/airline.service";
+import {AuthService} from "../../../../data/services/security/auth.service";
 
 @Component({
   selector: 'app-create-modify-airline-dialog',
@@ -15,6 +16,7 @@ import {AirlineService} from "../../../../data/services/airport/airline.service"
 })
 export class CreateModifyAirlineDialogComponent implements OnInit, OnDestroy {
 
+  username: string = "";
   airlineForm: FormGroup;
   subscriptions: Subscription[] = [];
 
@@ -22,9 +24,11 @@ export class CreateModifyAirlineDialogComponent implements OnInit, OnDestroy {
               @Inject(MAT_DIALOG_DATA) public data: any,
               private formBuilder: FormBuilder,
               private messageService: MessageService,
-              private airlineService: AirlineService
+              private airlineService: AirlineService,
+              private authService: AuthService
   ) {
     this.airlineForm = this.buildAirlineForm();
+    this.username = authService.currentUserValue.username;
   }
 
 
@@ -41,7 +45,7 @@ export class CreateModifyAirlineDialogComponent implements OnInit, OnDestroy {
   private buildAirlineForm(): FormGroup {
     return this.airlineForm = this.formBuilder.group({
       id: [],
-      name: [Validators.required]
+      name: ['', Validators.required],
     })
   }
 
@@ -66,6 +70,7 @@ export class CreateModifyAirlineDialogComponent implements OnInit, OnDestroy {
   }
 
   private createAirline(airline: Airline): Subscription {
+    airline.createdBy = this.username;
     return this.airlineService.save(airline).subscribe(r => {
       if (!r.success) {
         this.messageService.add({
@@ -82,6 +87,7 @@ export class CreateModifyAirlineDialogComponent implements OnInit, OnDestroy {
   }
 
   private updateAirline(airline: Airline): Subscription {
+    airline.updatedBy = this.username;
     return this.airlineService.update(airline).subscribe(r => {
       if (!r.success) {
         this.messageService.add({

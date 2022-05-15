@@ -4,6 +4,8 @@ import {MessageService} from 'primeng/api';
 import {Observable, tap} from 'rxjs';
 import {finalize} from 'rxjs/operators';
 import {SpinnerService} from '../service/spinner.service'
+import {Router} from "@angular/router";
+import {AuthService} from "../../data/services/security/auth.service";
 
 
 @Injectable({
@@ -13,12 +15,23 @@ export class CustomHttpInterceptor implements HttpInterceptor {
 
   constructor(
     private messageService: MessageService,
-    private spinnerService: SpinnerService
+    private spinnerService: SpinnerService,
+    private authService: AuthService,
+    private router: Router
   ) {
   }
 
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    let currentUser = this.authService.currentUserValue;
+    if (currentUser && currentUser.token) {
+      request = request.clone({
+        setHeaders: {
+          Authorization: `Bearer ${currentUser.token}`
+        }
+      });
+    }
+
     this.spinnerService.requestStarted();
     return next.handle(request).pipe(
       finalize(() => {
@@ -29,6 +42,24 @@ export class CustomHttpInterceptor implements HttpInterceptor {
         next: () => null,
         error: (err: HttpErrorResponse) => {
           this.spinnerService.resetSpinner();
+          if (err.status === 401) {
+            this.messageService.add({
+              key: 'gt',
+              summary: 'Error',
+              severity: 'error',
+              detail: "Usuario y/o contraseña incorrectos"
+            });
+            this.router.navigateByUrl('/login').then(r => {
+              if (!r) {
+                this.messageService.add({
+                  key: 'gt',
+                  summary: 'Error',
+                  severity: 'error',
+                  detail: "Ha ocurrido un error, intente de nuevo más tarde"
+                });
+              }
+            });
+          }
           if (err.status >= 400 && err.status < 404 || err.status >= 405 || err.statusText == 'INTERNAL_SERVER_ERROR') {
             if (err.error && err.error.message) {
               this.messageService.add({key: 'gt', summary: 'Error', severity: 'error', detail: err.error?.message});

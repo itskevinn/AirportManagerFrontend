@@ -1,5 +1,5 @@
 <div class="p-3">
-  <h1 mat-dialog-title>{{data.action}} médico</h1>
+  <h1 mat-dialog-title>{{data.action}} vuelo</h1>
   <div mat-dialog-content>
     <div [formGroup]="flightForm">
       <div class="row">
@@ -37,16 +37,6 @@
         <div class="col-lg-6 col-12 my-1">
           <label>Hora de Llegada</label>
           <p-calendar appendTo="body" formControlName="checkInTime" [timeOnly]="true"></p-calendar>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-lg-6 col-12 my-1">
-          <p-dropdown appendTo="body" [options]="workingHours" formControlName="workingHours"
-                      emptyMessage="No se encontraron registros"
-                      placeholder="Seleccione horas de trabajo" optionLabel="name" optionValue="value"
-                      [showClear]="true"></p-dropdown>
-        </div>
-        <div class="col-lg-6 col-12 my-1">
         </div>
       </div>
     </div>

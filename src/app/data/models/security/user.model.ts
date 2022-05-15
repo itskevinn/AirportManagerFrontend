@@ -5,4 +5,5 @@ export interface User {
   roles: Role[];
   name: string;
   username: string;
+  token: string;
 }

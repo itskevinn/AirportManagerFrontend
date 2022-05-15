@@ -25,11 +25,11 @@ const routes: Routes = [
         loadChildren: () => import('./modules/airport/flight/flight.module').then(m => m.FlightModule)
       },
       {
-        path: 'airline',
+        path: 'airlines',
         loadChildren: () => import('./modules/airport/airline/airline.module').then(m => m.AirlineModule)
       },
       {
-        path: 'city',
+        path: 'cities',
         loadChildren: () => import('./modules/airport/city/city.module').then(m => m.CityModule)
       },
       {

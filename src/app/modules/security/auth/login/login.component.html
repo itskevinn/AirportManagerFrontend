@@ -1,1 +1,14 @@
-<p>login works!</p>
+<h3>Inciar sesión</h3>
+<form [formGroup]="loginForm" class="px-4">
+  <div class="row">
+    <input class="my-1" type="text" pInputText placeholder="Usuario"
+           formControlName="username">
+  </div>
+  <div class="row">
+    <input class="my-1" type="text" pInputText placeholder="Contraseña"
+           formControlName="password">
+  </div>
+</form>
+<div class="col-12 df">
+  <p-button class="mx-1" (click)="login()" label="Iniciar sesión" icon="pi pi-check" iconPos="right"></p-button>
+</div>

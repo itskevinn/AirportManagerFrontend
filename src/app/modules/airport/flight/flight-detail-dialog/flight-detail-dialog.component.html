@@ -1,34 +1,35 @@
 <div class="p-3">
-  <h1 mat-dialog-title>Información del vuelo</h1>
+  <h3>Información del vuelo</h3>
   <div mat-dialog-content>
     <div class="row">
       <div class="col-lg-6 col-12 my-1">
-        <h3><b>Ciudad de salida</b></h3>
-        <label>{{flight?.departureCity.name}}</label>
+        <label>Ciudad de salida</label>
+
+        <h3><b>{{flight?.departureCity?.name}}</b></h3>
       </div>
       <div class="col-lg-6 col-12 my-1">
-        <h3><b>Ciudad de destino</b></h3>
-        <label>{{flight?.destinyCity.name}}</label>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-lg-6 col-12 my-1">
-        <h3><b>Fecha de salida</b></h3>
-        <label>{{flight?.checkOutDate | date: 'dd:mm:yyyy'}}</label>
-      </div>
-      <div class="col-lg-6 col-12 my-1">
-        <h3><b>Aereolínea</b></h3>
-        <label>{{flight?.airline.name}}</label>
+        <label>Ciudad de destino</label>
+        <h3><b>{{flight?.destinyCity?.name}}</b></h3>
       </div>
     </div>
     <div class="row">
       <div class="col-lg-6 col-12 my-1">
-        <h3><b>Hora de salida</b></h3>
-        <label>{{flight?.checkOutTime|date:'dd:mm:yyyy'}}</label>
+        <label>Fecha de salida</label>
+        <h3><b>{{flight?.checkOutDate | date: 'dd/MM/yyyy'}}</b></h3>
       </div>
       <div class="col-lg-6 col-12 my-1">
-        <h3><b>Hora de llegada</b></h3>
-        <label>{{flight?.checkInTime|date:'dd:mm:yyyy'}}</label>
+        <label>Aereolínea</label>
+        <h3><b>{{flight?.airline?.name}}</b></h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-6 col-12 my-1">
+        <label>Hora de salida</label>
+        <h3><b>{{flight?.checkOutTime|date:'hh:mm'}}</b></h3>
+      </div>
+      <div class="col-lg-6 col-12 my-1">
+        <label>Hora de llegada</label>
+        <h3><b>{{flight?.checkInTime|date:'hh:mm'}}</b></h3>
       </div>
     </div>
   </div>

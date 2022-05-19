@@ -20,7 +20,6 @@
         <th scope="col">Hora de Salida</th>
         <th scope="col">Ciudad de Destino</th>
         <th scope="col">Ciudad de Salida</th>
-        <th scope="col">Estado</th>
         <th scope="col" style="width:8rem"></th>
       </tr>
     </ng-template>
@@ -32,12 +31,8 @@
         <td>{{flight.checkOutTime | date: 'hh:mm'}}</td>
         <td>{{flight.destinyCity.name}}</td>
         <td>{{flight.departureCity.name}}</td>
-        <td>{{flight.flightStatus}}</td>
         <td>
-          <button *ngIf="canAddOrEdit" pButton pRipple type="button" icon="pi pi-pencil"
-                  (click)="showRegisterModifyFlightDialog('Editar',flight)"
-                  class="p-button-rounded p-button-text"></button>
-          <button pButton pRipple type="button" icon="pi pi-pencil"
+          <button pButton pRipple type="button" icon="fa-solid fa-eye"
                   (click)="showFlightDetailsDialog(flight)"
                   class="p-button-rounded p-button-text"></button>
         </td>

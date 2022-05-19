@@ -19,8 +19,10 @@
       <div class="row">
         <div class="col-lg-6 col-12 my-1">
           <label>Fecha de Salida</label>
-          <p-calendar appendTo="body" formControlName="checkOutDate"
-                      [locale]="es" dateFormat="dd/mm/yy"></p-calendar>
+          <p-calendar
+            [minDate]="today"
+            appendTo="body" formControlName="checkOutDate"
+            [locale]="es" dateFormat="dd/mm/yy"></p-calendar>
         </div>
         <div class="col-lg-6 col-12 my-1">
           <label>Seleccione la aereolínea</label>
@@ -32,7 +34,7 @@
       <div class="row">
         <div class="col-lg-6 col-12 my-1">
           <label>Hora de Salida</label>
-          <p-calendar appendTo="body" formControlName="checkOutTime" [timeOnly]="true"></p-calendar>
+          <p-calendar [minDate]="today" appendTo="body" formControlName="checkOutTime" [timeOnly]="true"></p-calendar>
         </div>
         <div class="col-lg-6 col-12 my-1">
           <label>Hora de Llegada</label>

@@ -1,6 +1,6 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {markFormControlsAsTouched, setFormValues, unsubscribeAllSubscriptions} from "../../../../shared/func/functions";
+import {markFormControlsAsTouched, unsubscribeAllSubscriptions} from "../../../../shared/func/functions";
 import {CREATE} from "../../../../core/constants/actions";
 import {MessageService} from "primeng/api";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
@@ -20,6 +20,7 @@ import {AuthService} from "../../../../data/services/security/auth.service";
 })
 export class CreateModifyFlightDialogComponent implements OnInit, OnDestroy {
 
+  today: Date = new Date();
   flightForm: FormGroup;
   subscriptions: Subscription[] = [];
   cities: City[] = [];
@@ -34,7 +35,7 @@ export class CreateModifyFlightDialogComponent implements OnInit, OnDestroy {
               private cityService: CityService,
               private airlineService: AirlineService,
               private flightService: FlightService,
-              private authService: AuthService
+              private authService: AuthService,
   ) {
     this.flightForm = this.buildFlightForm();
     this.username = authService.currentUserValue.username;
@@ -45,20 +46,6 @@ export class CreateModifyFlightDialogComponent implements OnInit, OnDestroy {
     this.validateIfFlightExists();
     this.getAirlines();
     this.getCities();
-    this.createEsCalendar();
-  }
-
-  private createEsCalendar(): void {
-    this.es = {
-      firstDayOfWeek: 1,
-      dayNames: ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"],
-      dayNamesShort: ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"],
-      dayNamesMin: ["D", "L", "M", "X", "J", "V", "S"],
-      monthNames: ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"],
-      monthNamesShort: ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"],
-      today: 'Hoy',
-      clear: 'Borrar'
-    }
   }
 
   private getCities(): void {
@@ -111,9 +98,9 @@ export class CreateModifyFlightDialogComponent implements OnInit, OnDestroy {
   private setFlightFormValues(flight: Flight) {
     this.flightForm.controls['departureCityId']?.setValue(flight.departureCity?.id);
     this.flightForm.controls['destinyCityId']?.setValue(flight.destinyCity?.id);
-    this.flightForm.controls['checkOutDate']?.setValue(flight.checkOutDate);
-    this.flightForm.controls['checkInTime']?.setValue(flight.checkInTime);
-    this.flightForm.controls['checkOutTime']?.setValue(flight.checkOutTime);
+    this.flightForm.controls['checkOutDate']?.setValue(new Date(flight.checkOutDate));
+    this.flightForm.controls['checkInTime']?.setValue(new Date(flight.checkInTime));
+    this.flightForm.controls['checkOutTime']?.setValue(new Date(flight.checkOutTime));
     this.flightForm.controls['airlineId']?.setValue(flight.airline.id);
 
   }
@@ -125,6 +112,16 @@ export class CreateModifyFlightDialogComponent implements OnInit, OnDestroy {
       return;
     }
     flight = this.flightForm.value;
+    if (this.flightForm.controls['departureCityId'].value ==
+      this.flightForm.controls['destinyCityId'].value) {
+      this.messageService.add({
+        severity: 'warn',
+        key: 'gt',
+        closable: true,
+        summary: 'Aviso',
+        detail: 'La ciudad de salida y de entrada son las mismas'
+      });
+    }
     let subscription: Subscription;
     if (this.data.action === CREATE) {
       subscription = this.createFlight(flight);

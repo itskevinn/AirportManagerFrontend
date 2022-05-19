@@ -65,7 +65,6 @@ export class CreateModifyCityDialogComponent implements OnInit, OnDestroy {
     }
     city = this.cityForm.value;
     city.updatedBy = this.username;
-    debugger;
     let subscription: Subscription;
     if (this.data.action === CREATE) {
       subscription = this.createCity(city);

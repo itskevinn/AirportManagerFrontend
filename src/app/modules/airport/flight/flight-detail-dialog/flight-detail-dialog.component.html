@@ -1,42 +1,40 @@
-<div class="p-3">
-  <h3>Información del vuelo</h3>
+<div class="p-3 justify-content-center">
+  <h3><strong>Información del vuelo</strong></h3>
   <div mat-dialog-content>
     <div class="row">
       <div class="col-lg-6 col-12 my-1">
         <label>Ciudad de salida</label>
 
-        <h3><b>{{flight?.departureCity?.name}}</b></h3>
+        <h3><strong>{{flight?.departureCity?.name}}</strong></h3>
       </div>
       <div class="col-lg-6 col-12 my-1">
         <label>Ciudad de destino</label>
-        <h3><b>{{flight?.destinyCity?.name}}</b></h3>
+        <h3><strong>{{flight?.destinyCity?.name}}</strong></h3>
       </div>
     </div>
     <div class="row">
       <div class="col-lg-6 col-12 my-1">
         <label>Fecha de salida</label>
-        <h3><b>{{flight?.checkOutDate | date: 'dd/MM/yyyy'}}</b></h3>
+        <h3><strong>{{flight?.checkOutDate | date: 'dd/MM/yyyy'}}</strong></h3>
       </div>
       <div class="col-lg-6 col-12 my-1">
         <label>Aereolínea</label>
-        <h3><b>{{flight?.airline?.name}}</b></h3>
+        <h3><strong>{{flight?.airline?.name}}</strong></h3>
       </div>
     </div>
     <div class="row">
       <div class="col-lg-6 col-12 my-1">
         <label>Hora de salida</label>
-        <h3><b>{{flight?.checkOutTime|date:'hh:mm'}}</b></h3>
+        <h3><strong>{{flight?.checkOutTime|date:'hh:mm'}}</strong></h3>
       </div>
       <div class="col-lg-6 col-12 my-1">
         <label>Hora de llegada</label>
-        <h3><b>{{flight?.checkInTime|date:'hh:mm'}}</b></h3>
+        <h3><strong>{{flight?.checkInTime|date:'hh:mm'}}</strong></h3>
       </div>
     </div>
   </div>
-  <div mat-dialog-actions class="row text-center">
-    <div class="col-lg-6 col-6 d-flex justify-content-end">
-      <button pButton pRipple class="p-button-raised p-button-primary p-button-text" label="Cancelar"
-              mat-dialog-close></button>
-    </div>
+  <div class="col-lg-12 col-12 d-flex justify-content-end" mat-dialog-actions>
+    <button class="p-button-raised p-button-primary p-button-text" label="Cancelar" mat-dialog-close pButton
+            pRipple></button>
   </div>
 </div>

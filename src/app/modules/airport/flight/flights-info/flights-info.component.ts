@@ -66,7 +66,7 @@ export class FlightsInfoComponent implements OnInit, OnDestroy {
 
   private openDetailDialog(flight: Flight): void {
     this.dialog.open(FlightDetailDialogComponent, {
-      width: '80%',
+      width: '30%',
       data: {flight: flight},
     });
   }
